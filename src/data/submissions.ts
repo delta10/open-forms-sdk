@@ -14,6 +14,7 @@ export interface SubmissionCreateBody {
   formUrl: string;
   anonymous?: boolean;
   initialDataReference?: string;
+  initialData?: Record<string, string>;
 }
 
 /**
@@ -62,6 +63,7 @@ export interface Submission {
  * @param form - The relevant Open Forms form instance.
  * @param formUrl - The client-side URL hosting the form entrypoint.
  * @param initialDataReference - The data reference provided by the external party.
+ * @param initialData - Initial data to prefill the submission.
  * @return - The Submission instance.
  */
 export const createSubmission = async (
@@ -70,13 +72,15 @@ export const createSubmission = async (
   formUrl: string,
   signal: AbortSignal | null,
   initialDataReference: string,
-  anonymous = false
+  anonymous = false,
+  initialData?: Record<string, string>
 ): Promise<Submission> => {
   const createData: SubmissionCreateBody = {
     form: form.url,
     formUrl,
     anonymous,
     initialDataReference: initialDataReference ? initialDataReference : undefined,
+    initialData: initialData ? initialData : undefined,
   };
   const submissionResponse = await post<Submission>(`${baseUrl}submissions`, createData, signal);
   return submissionResponse.data!;

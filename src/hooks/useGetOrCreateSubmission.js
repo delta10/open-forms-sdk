@@ -23,7 +23,7 @@ const useGetOrCreateSubmission = (form, skipCreation) => {
     async signal => {
       if (shouldCreate) {
         try {
-          setSubmission(await createSubmission(baseUrl, form, clientBaseUrl, signal));
+          setSubmission(await createSubmission(baseUrl, form, clientBaseUrl, signal, '', false));
         } catch (e) {
           if (error.name !== 'AbortError') {
             throw e;
