@@ -28,7 +28,7 @@ const useGetOrCreateSubmission = (form: Form, skipCreation: boolean) => {
     async (signal: AbortSignal) => {
       if (shouldCreate) {
         try {
-          const submission = await createSubmission(baseUrl, form, clientBaseUrl, signal, '');
+          const submission = await createSubmission(baseUrl, form, clientBaseUrl, signal, '', false);
           setSubmission(submission);
         } catch (error) {
           // See https://developer.mozilla.org/en-US/docs/Web/API/DOMException#aborterror
