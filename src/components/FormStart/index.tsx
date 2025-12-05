@@ -23,6 +23,7 @@ import {createSubmission} from '@/data/submissions';
 import {UnprocessableEntity} from '@/errors';
 import {IsFormDesigner} from '@/headers';
 import useFormContext from '@/hooks/useFormContext';
+import useInitialData from '@/hooks/useInitialData';
 import useInitialDataReference from '@/hooks/useInitialDataReference';
 import useStartSubmission from '@/hooks/useStartSubmission';
 
@@ -35,6 +36,7 @@ import useStartSubmission from '@/hooks/useStartSubmission';
 const FormStart: React.FC = () => {
   const {baseUrl, clientBaseUrl} = useContext(ConfigContext);
   const {initialDataReference} = useInitialDataReference();
+  const {initialData} = useInitialData();
   const navigate = useNavigate();
 
   const form = useFormContext();
@@ -77,7 +79,8 @@ const FormStart: React.FC = () => {
         clientBaseUrl,
         null,
         initialDataReference ?? '',
-        isAnonymous
+        isAnonymous,
+        initialData ?? undefined
       );
 
       onSubmissionObtained(newSubmission);
@@ -85,7 +88,16 @@ const FormStart: React.FC = () => {
       const firstStepRoute = `/stap/${form.steps[0].slug}`;
       navigate(firstStepRoute);
     },
-    [submission, baseUrl, form, clientBaseUrl, initialDataReference, onSubmissionObtained, navigate]
+    [
+      submission,
+      baseUrl,
+      form,
+      clientBaseUrl,
+      initialDataReference,
+      initialData,
+      onSubmissionObtained,
+      navigate,
+    ]
   );
 
   const {error} = useAsync(async () => {
@@ -141,9 +153,10 @@ const FormStart: React.FC = () => {
     );
   }
 
-  const extraNextParams: Record<string, string> = initialDataReference
-    ? {initial_data_reference: initialDataReference}
-    : {};
+  const extraNextParams: Record<string, string> = {
+    ...(initialDataReference ? {initial_data_reference: initialDataReference} : {}),
+    ...(initialData ? {initial_data: JSON.stringify(initialData)} : {}),
+  };
 
   return (
     <LiteralsProvider literals={form.literals}>
