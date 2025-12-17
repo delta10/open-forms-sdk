@@ -9,7 +9,7 @@ export interface UseInitialDataResult {
 /**
  * Hook to extract the initial data from query parameters.
  *
- * The initial_data parameter should be a JSON-encoded object.
+ * The initial_data parameter should be a base64-encoded, JSON-encoded object.
  */
 const useInitialData = (): UseInitialDataResult => {
   const [searchParams] = useSearchParams();
@@ -18,9 +18,16 @@ const useInitialData = (): UseInitialDataResult => {
   let initialData: Record<string, string> | null = null;
   if (initialDataParam) {
     try {
-      initialData = JSON.parse(initialDataParam);
-    } catch (error) {
-      console.error('Failed to parse initial_data parameter:', error);
+      // Try to decode as base64 first
+      const decodedParam = atob(initialDataParam);
+      initialData = JSON.parse(decodedParam);
+    } catch {
+      // Fallback: try parsing as plain JSON (backward compatibility)
+      try {
+        initialData = JSON.parse(initialDataParam);
+      } catch (fallbackError) {
+        console.error('Failed to parse initial_data parameter:', fallbackError);
+      }
     }
   }
 
