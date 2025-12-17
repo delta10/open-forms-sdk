@@ -155,7 +155,14 @@ const FormStart: React.FC = () => {
 
   const extraNextParams: Record<string, string> = {
     ...(initialDataReference ? {initial_data_reference: initialDataReference} : {}),
-    ...(initialData ? {initial_data: btoa(JSON.stringify(initialData))} : {}),
+    ...(initialData
+      ? {
+          initial_data: btoa(JSON.stringify(initialData))
+            .replace(/\+/g, '-')
+            .replace(/\//g, '_')
+            .replace(/=+$/, ''),
+        }
+      : {}),
   };
 
   return (

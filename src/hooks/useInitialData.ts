@@ -18,8 +18,9 @@ const useInitialData = (): UseInitialDataResult => {
   let initialData: Record<string, string> | null = null;
   if (initialDataParam) {
     try {
-      // Try to decode as base64 first
-      const decodedParam = atob(initialDataParam);
+      // Convert base64url to standard base64, then decode
+      const base64 = initialDataParam.replace(/-/g, '+').replace(/_/g, '/');
+      const decodedParam = atob(base64);
       initialData = JSON.parse(decodedParam);
     } catch {
       // Fallback: try parsing as plain JSON (backward compatibility)
