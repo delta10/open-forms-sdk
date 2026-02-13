@@ -248,9 +248,9 @@
     "originalDefault": "House number must be a number with up to five digits (e.g. 456)."
   },
   "ATXTTM": {
-    "defaultMessage": "Voor dit product is betaling vereist.",
+    "defaultMessage": "Voor dit product is betaling vereist. De aanvraag wordt na betaling in behandeling genomen.",
     "description": "Payment request text",
-    "originalDefault": "A payment is required for this product."
+    "originalDefault": "A payment is required for this product. After payment your submission is processed."
   },
   "Aaq2GF": {
     "defaultMessage": "Sorry, er zijn geen datums beschikbaar voor je afspraak. Probeer het later opnieuw.",

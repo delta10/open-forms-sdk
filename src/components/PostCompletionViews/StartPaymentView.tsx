@@ -4,7 +4,6 @@ import {useLocation} from 'react-router';
 
 import Body from '@/components/Body';
 import ErrorBoundary from '@/components/Errors/ErrorBoundary';
-import useFormContext from '@/hooks/useFormContext';
 import {DEBUG} from '@/utils';
 
 import PostCompletionView from './PostCompletionView';
@@ -66,12 +65,11 @@ export interface StartPaymentViewProps {
 }
 
 const StartPaymentView: React.FC<StartPaymentViewProps> = ({onFailureNavigateTo}) => {
-  const form = useFormContext();
   const {statusUrl} = useLocation().state || {};
   if (DEBUG && !statusUrl) throw new Error('You must pass the status URL via the route state.');
   return (
     <StatusUrlPoller statusUrl={statusUrl} onFailureNavigateTo={onFailureNavigateTo}>
-      <StartPaymentViewDisplay downloadPDFText={form.submissionReportDownloadLinkTitle} />
+      <StartPaymentViewDisplay downloadPDFText="" />
     </StatusUrlPoller>
   );
 };

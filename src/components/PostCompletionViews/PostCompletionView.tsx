@@ -37,12 +37,14 @@ const PostCompletionView: React.FC<PostCompletionViewProps> = ({
     <Card title={header}>
       {body}
 
-      <Body>
-        <FAIcon icon="download" inline />
-        <Anchor href={reportDownloadUrl} target="_blank" rel="noopener noreferrer">
-          {linkTitle}
-        </Anchor>
-      </Body>
+      {downloadPDFText && reportDownloadUrl ? (
+        <Body>
+          <FAIcon icon="download" inline />
+          <Anchor href={reportDownloadUrl} target="_blank" rel="noopener noreferrer">
+            {linkTitle}
+          </Anchor>
+        </Body>
+      ) : null}
 
       {extraBody}
 
