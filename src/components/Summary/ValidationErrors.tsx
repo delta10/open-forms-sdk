@@ -70,6 +70,7 @@ export interface ValidationErrorsProps {
    * Validation errors as reconstructed from the backend invalidParams
    */
   errors: {
+    nonFieldErrors?: string | string[];
     steps?: StepErrors[];
   };
   /**
@@ -82,10 +83,14 @@ export interface ValidationErrorsProps {
  * Render the validation errors received from the backend.
  */
 const ValidationErrors: React.FC<ValidationErrorsProps> = ({errors, summaryData}) => {
-  const {steps = []} = errors;
-  if (steps.length === 0) return null;
+  const {nonFieldErrors = [], steps = []} = errors;
+  const topLevelErrors = normalizeError(nonFieldErrors);
+  if (topLevelErrors.length === 0 && steps.length === 0) return null;
   return (
     <UnorderedList className="utrecht-unordered-list--distanced">
+      {topLevelErrors.map(error => (
+        <UnorderedListItem key={error}>{error}</UnorderedListItem>
+      ))}
       {steps.map((stepErrors, index) => (
         <UnorderedListItem key={summaryData[index].slug}>
           <StepValidationErrors

@@ -58,6 +58,11 @@ export const BackendValidationErrors: Story = {
         completeSubmission: [
           mockSubmissionCompleteInvalidPost([
             {
+              name: 'nonFieldErrors',
+              code: 'invalid',
+              reason: 'Het gekozen tijdstip is niet meer beschikbaar. Kies een ander tijdstip.',
+            },
+            {
               name: 'steps.0.nonFieldErrors.0',
               code: 'invalid',
               reason: 'Your carpet is ugly.',
@@ -94,6 +99,9 @@ export const BackendValidationErrors: Story = {
       expect(await canvas.findByText(/Your carpet is ugly/)).toBeVisible();
       expect(await canvas.findByText(/And your veg/)).toBeVisible();
       expect(await canvas.findByText(/I was waiting in line for ten whole minutes/)).toBeVisible();
+      expect(
+        await canvas.findByText(/Het gekozen tijdstip is niet meer beschikbaar/)
+      ).toBeVisible();
     });
   },
 };
